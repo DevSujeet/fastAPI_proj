@@ -57,7 +57,6 @@ engine_sqlModel = create_sqlmodel_engine(LOCAL_DATABASE, echo=True)
 def init_db():
     SQLModel.metadata.create_all(engine_sqlModel)
 
-@contextmanager
 def get_session():
     with Session(engine_sqlModel) as session:
         yield session

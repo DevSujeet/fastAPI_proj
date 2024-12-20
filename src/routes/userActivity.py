@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi.logger import logger
 from src.config.configs import _db_settings
 from typing import Dict
-from src.schemas.UserActivity import UserActivityBase, ActionType
+from src.models.UserActivity import UserActivityBase, ActionType
 from datetime import datetime
 from typing import List
 

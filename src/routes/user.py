@@ -2,10 +2,11 @@ from fastapi import APIRouter, Depends
 from fastapi.logger import logger
 from src.config.configs import _db_settings
 from typing import Dict
-from src.schemas.UserActivity import User
+from src.models.user import User
 from typing import List
-
-import os
+from src.crud.user import UserCRUD
+from src.db import get_session
+from sqlmodel import Session
 
 router = APIRouter(
     prefix="/user",
@@ -22,16 +23,25 @@ USERS = [
 ]
 
 @router.get('/all')
-async def allUsers() -> List[User]:
-    return USERS
+async def allUsers(session:Session = Depends(get_session)) -> List[User]:
+    # return USERS
+    user_curd = UserCRUD(db_session=session)
+    users = user_curd.get_all_user()
+    return users
+
     
 
 @router.get('')
-async def user(id:str) -> User:
+async def user(id:str, session:Session = Depends(get_session)) -> User:
     # return user for a given user_id
-    return USERS[1]
+    user_curd = UserCRUD(db_session=session)
+    user = user_curd.get_user(user_id=id)
+    return user
 
 @router.post('')
-async def create_user(user:User) -> User:
-    USERS.append(user)
+async def create_user(user:User, session:Session = Depends(get_session)) -> User:
+    # USERS.append(user)
+    # return user
+    user_curd = UserCRUD(db_session=session)
+    user_curd.create_user(user=user)
     return user

@@ -1,4 +1,5 @@
 # from pydantic import BaseModel
+import uuid
 import time
 from datetime import datetime
 from typing import Optional
@@ -22,6 +23,6 @@ class UserActivityBase(SQLModel):
     timestamp:datetime
 
 class UserActivity(UserActivityBase,table=True):
-    id:int = Field(default=None, primary_key=True)
+    id:int = Field(default_factory=uuid.uuid4, primary_key=True)
 
 

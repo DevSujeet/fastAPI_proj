@@ -1,11 +1,10 @@
 # from pydantic import BaseModel
 import uuid
-import time
 from datetime import datetime
-from typing import Optional
 from pydantic import EmailStr
 from enum import Enum
-from sqlmodel import SQLModel, Field, Relationship
+from sqlmodel import SQLModel, Field
+from src.models.user import User  # Import User class
 
 class ActionType(Enum):
     DOWNLOAD = "DOWNLOAD"

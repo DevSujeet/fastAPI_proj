@@ -14,5 +14,5 @@ def get_all_user_activities(session:Session):
 
 def get_activities_by_userid(user_id:str, session:Session):
     activity_curd = UserActivityCRUD(db_session=session)
-    activities = activity_curd.get_activities_by_user(user_id=id)
+    activities = activity_curd.get_activities_by_user(user_id=user_id)
     return activities

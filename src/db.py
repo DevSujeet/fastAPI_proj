@@ -35,7 +35,7 @@ db_settings_instance = _db_settings()
 # SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 #Declarative base object
-Base = declarative_base()
+# Base = declarative_base()
 
 
 # @contextmanager
@@ -50,7 +50,7 @@ Base = declarative_base()
 #         session.close()
 
 #--------SQLMODEL based--------------------
-SQLModel.metadata = Base.metadata
+# SQLModel.metadata = Base.metadata
 LOCAL_DATABASE = 'sqlite:///db.sqlite'
 engine_sqlModel = create_sqlmodel_engine(LOCAL_DATABASE, echo=True)
 

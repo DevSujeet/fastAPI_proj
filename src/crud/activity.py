@@ -16,7 +16,7 @@ class UserActivityCRUD(BaseCRUD):
 
         self.db_session.flush()
         self.db_session.commit()
-        self.db_session.refresh(activity)
+        self.db_session.refresh(activity_obj)
         
     
     def get_all_user_activity(self):
@@ -27,7 +27,7 @@ class UserActivityCRUD(BaseCRUD):
     def get_activities_by_user(self, user_id:str):
         statement = select(UserActivity).where(UserActivity.user_id == user_id)
         results = self.db_session.exec(statement=statement)
-        activities = results.all
+        activities = results
         if activities is None:
             raise HTTPException(status_code=404, detail='some error occured while getting activities of the user')
         return activities

@@ -20,6 +20,7 @@ os.environ.pop('DEVELOPMENT_DATABASE_USERNAME', None)
 #life span event
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    print("in life span")
     init_db()
     yield
 

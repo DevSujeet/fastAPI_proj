@@ -4,7 +4,6 @@ from datetime import datetime
 from pydantic import EmailStr
 from enum import Enum
 from sqlmodel import SQLModel, Field
-from src.models.user import User  # Import User class
 
 class ActionType(Enum):
     DOWNLOAD = "DOWNLOAD"
@@ -21,7 +20,7 @@ class UserActivityBase(SQLModel):
     action:ActionType
     timestamp:datetime
 
-class UserActivity(UserActivityBase,table=True):
-    id:int = Field(default_factory=uuid.uuid4, primary_key=True)
+class UserActivity(UserActivityBase, table=True):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
 
 

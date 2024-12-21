@@ -28,7 +28,7 @@ async def all_users_activities(session:Session = Depends(get_session)) -> List[U
     
 
 @router.get('/byUser')
-async def activity_by_user(user_id:str,session:Session = Depends(get_session)) -> UserActivityBase:
+async def activity_by_user(user_id:str,session:Session = Depends(get_session)) -> List[UserActivityBase]:
     # return user for a given user_id
     return get_activities_by_userid(user_id=user_id,session=session)
 

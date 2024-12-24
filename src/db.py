@@ -1,17 +1,11 @@
-from fastapi.logger import logger
-from contextlib import contextmanager
-import pydantic
-from fastapi.logger import logger
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
-import urllib.parse
 
+from contextlib import contextmanager
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from src.config.configs import _db_settings
 
-from sqlmodel import create_engine as create_sqlmodel_engine, SQLModel, Session
+# from sqlmodel import create_engine as create_sqlmodel_engine, SQLModel, Session
 
 db_settings_instance = _db_settings()
 
@@ -30,33 +24,38 @@ db_settings_instance = _db_settings()
 
 ###----------------------sqlalchmy base-----------------
 
-# engine = create_engine(SYNC_DATABASE_URL)
+LOCAL_DATABASE = 'sqlite:///db.sqlite'
+engine = create_engine(LOCAL_DATABASE)
 
-# SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-#Declarative base object
-# Base = declarative_base()
+# Declarative base object
+Base = declarative_base()
 
 
-# @contextmanager
-# def get_session():
-#     session = SessionLocal()
-#     try:
-#         yield session
-#     except:
-#         session.rollback()
-#         raise
-#     finally:
-#         session.close()
+@contextmanager
+def get_session():
+    session = SessionLocal()
+    try:
+        yield session
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+
+
+def init_db():
+    Base.metadata.create_all(engine)
 
 #--------SQLMODEL based--------------------
 # SQLModel.metadata = Base.metadata
-LOCAL_DATABASE = 'sqlite:///db.sqlite'
-engine_sqlModel = create_sqlmodel_engine(LOCAL_DATABASE, echo=True)
+# LOCAL_DATABASE = 'sqlite:///db.sqlite'
+# engine_sqlModel = create_sqlmodel_engine(LOCAL_DATABASE, echo=True)
 
-def init_db():
-    SQLModel.metadata.create_all(engine_sqlModel)
+# def init_db():
+#     SQLModel.metadata.create_all(engine_sqlModel)
 
-def get_session():
-    with Session(engine_sqlModel) as session:
-        yield session
+# def get_session():
+#     with Session(engine_sqlModel) as session:
+#         yield session

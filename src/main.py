@@ -6,7 +6,7 @@ from src.routes import analytics
 from src.routes import intro
 from src.routes import user
 from src.routes import userActivity
-from src.routes import record, location
+from src.routes import record, location, project
 from src.middleware import add_process_time
 # from fastapi_pagination import add_pagination
 from contextlib import asynccontextmanager
@@ -45,10 +45,11 @@ def get_fastapi_routers():
        analytics.router,
        intro.router,
        user.router,
-       userActivity.router
+       userActivity.router,
+       record.router,
+       location.router,
+       project.router
     ]
-
-
 
 
 app = create_app(lifespan=lifespan)

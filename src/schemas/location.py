@@ -15,9 +15,9 @@ class Location(BaseModel):
     postalcode:Optional[int]
     submitted_date: Optional[datetime]
 
-    @computed_field
+    @computed_field(return_type=str)
     @property
-    def complete_address(self):
+    def complete_address(self) -> str:
         """Getter for the complete address. this also be part of the json/model dump"""
         return f"{self.public_land_address}, {self.suburb}, {self.state}, {self.postalcode} "
     

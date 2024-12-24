@@ -25,7 +25,7 @@ class Record(BaseModel):
     record_date: Optional[datetime]
     submitted_date: Optional[datetime]
 
-    @computed_field
+    @computed_field(return_type=str)
     @property
     def complete_address(self):
         """Getter for the complete address. this also be part of the json/model dump"""

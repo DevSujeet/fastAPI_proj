@@ -1,5 +1,5 @@
 from src.crud.user import UserCRUD
-from src.models.user import User
+from src.schemas.user import User
 # from sqlmodel import Session
 from src.db import get_session
 

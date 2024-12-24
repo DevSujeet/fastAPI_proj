@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends
 from fastapi.logger import logger
-from src.models.user import User
+from src.schemas.user import User
 from typing import List
-from src.db import get_session
-from sqlmodel import Session
+
 
 from src.services.user import create_user, get_all_user, get_user_by_id
 

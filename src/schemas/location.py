@@ -22,7 +22,7 @@ class Location(BaseModel):
         return f"{self.public_land_address}, {self.suburb}, {self.state}, {self.postalcode} "
     
     class Config:
-        orm_mode = True
+        from_attributes = True
         use_enum_values = True
         json_encoders = {
             datetime: lambda v: v.timestamp() * 1000,

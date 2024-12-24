@@ -11,7 +11,7 @@ class UserActivityCreate(BaseModel):
     action: ActionType
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UserActivityResponse(BaseModel):
     id: int
@@ -23,7 +23,7 @@ class UserActivityResponse(BaseModel):
     created: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
         use_enum_values = True
         json_encoders = {
             datetime: lambda v: v.timestamp() * 1000,

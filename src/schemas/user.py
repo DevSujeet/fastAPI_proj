@@ -5,3 +5,6 @@ class User(BaseModel):
     user_name:str
     user_role:str
     user_email:EmailStr
+
+    class Config:
+        from_attributes = True

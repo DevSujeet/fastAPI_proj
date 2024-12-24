@@ -7,8 +7,8 @@ from src.schemas.project import Project
 
 # list of all the project by location
 class ProjectLocationsResponse(BaseModel):
-    project_name: str
-    locations: Optional[List[Location]]
+    location: str
+    projects: Optional[List[Project]]
 
 
 class ProjectOverViewResponse(BaseModel):

@@ -6,6 +6,7 @@ from src.routes import analytics
 from src.routes import intro
 from src.routes import user
 from src.routes import userActivity
+from src.routes import record, location
 from src.middleware import add_process_time
 # from fastapi_pagination import add_pagination
 from contextlib import asynccontextmanager

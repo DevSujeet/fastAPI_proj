@@ -1,12 +1,11 @@
 import uuid
-from sqlalchemy import Column, TIMESTAMP, func, String, BIGINT
+from sqlalchemy import Column, TIMESTAMP, func, String
 from src.db import Base
 
 
 class RecordData(Base):
     __tablename__ = 'record'
-
-    record_id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()), nullable=False)
+    record_id = Column('record_id', String(36), primary_key=True, default=lambda: str(uuid.uuid4()), nullable=False)
     record_type = Column("record_type", String, nullable=True)
     record_category = Column("record_category", String, nullable=True)
     record_subcategory = Column("record_subcategory", String, nullable=True)

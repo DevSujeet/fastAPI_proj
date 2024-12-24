@@ -6,7 +6,7 @@ from src.db import Base
 
 class UserActivityData(Base):
     __tablename__ = 'user_activity'
-    # __table_args__ = {'schema': "runtime_schema_name"}
+
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()), nullable=False)
     user_id = Column("user_id", String, primary_key=True, nullable=False)
     record_id = Column("record_id", String, ForeignKey("record.record_id"), nullable=True) #foriegn key to record table record_id

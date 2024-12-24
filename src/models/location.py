@@ -1,11 +1,11 @@
 import uuid
-from sqlalchemy import Column, TIMESTAMP, func, String, BIGINT
+from sqlalchemy import Column, TIMESTAMP, func, String
 from src.db import Base
 
 class LocationData(Base):
     __tablename__ = 'location'
 
-    location_id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()), nullable=False)
+    location_id = Column('location_id', String(36), primary_key=True, default=lambda: str(uuid.uuid4()), nullable=False)
     adbor_id = Column("adbor_id", String, primary_key=True, nullable=True)
     property_name = Column("property_name", String, nullable=True)
     address_type = Column("address_type", String, nullable=True)
@@ -13,6 +13,4 @@ class LocationData(Base):
     state = Column("state", String, nullable=True)
     suburb = Column("suburb", String, nullable=True)
     postalcode = Column("postalcode", int, nullable=True)
-
-
     submitted_date = Column(TIMESTAMP, default=func.now(), nullable=False)

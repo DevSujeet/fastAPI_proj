@@ -54,7 +54,8 @@ def get_fastapi_routers():
 
 app = create_app(lifespan=lifespan)
 # add_pagination(app)
-
+if __name__ == "__main__":
+    uvicorn.run("main:app")
 
 
 

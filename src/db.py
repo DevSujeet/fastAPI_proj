@@ -44,8 +44,9 @@ def get_session():
     finally:
         session.close()
 
-
+# To create all the table defined as models
 def init_db():
+    print(f'table that are getting created are: {Base.metadata.tables.keys()}')
     Base.metadata.create_all(engine)
 
 #--------SQLMODEL based--------------------

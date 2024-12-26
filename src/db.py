@@ -1,9 +1,13 @@
 
 from contextlib import contextmanager
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 from src.config.configs import _db_settings
+
+# from src.models.location import LocationData
+# from src.models.project import ProjectData
+# from src.models.record import RecordData
+
 
 # from sqlmodel import create_engine as create_sqlmodel_engine, SQLModel, Session
 
@@ -47,7 +51,11 @@ def get_session():
 # To create all the table defined as models
 def init_db():
     print(f'table that are getting created are: {Base.metadata.tables.keys()}')
-    Base.metadata.create_all(engine)
+    try:
+        Base.metadata.create_all(engine)
+        print("Tables created successfully.")
+    except Exception as e:
+        print("Error while creating tables:", e)
 
 #--------SQLMODEL based--------------------
 # SQLModel.metadata = Base.metadata

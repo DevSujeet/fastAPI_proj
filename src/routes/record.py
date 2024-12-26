@@ -18,10 +18,10 @@ async def allRecord() -> List[Record]:
    print(f'get all records')
 
 @router.get('')
-async def user(id:str) -> Record:
+async def get_record_by_id(id:str) -> Record:
     # return record for a given id
     print(f'return record for a given id')
 
 @router.post('')
-async def create_user_entry(user:Record) -> Record:
+async def create_record_entry(record:Record) -> Record:
     print(f'create a record entry')

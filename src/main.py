@@ -2,11 +2,7 @@ from fastapi import FastAPI
 from src.config.configs import _db_settings
 from typing import Dict
 import os
-from src.routes import analytics
-from src.routes import intro
-from src.routes import user
-from src.routes import userActivity
-from src.routes import record, location, project
+from src.routes import intro,user, record, location, project, analytics, userActivity
 from src.middleware import add_process_time
 # from fastapi_pagination import add_pagination
 from contextlib import asynccontextmanager

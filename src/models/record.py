@@ -14,3 +14,4 @@ class RecordData(Base):
     submitted_date = Column(TIMESTAMP, default=func.now(), nullable=False)
     record_date = Column(TIMESTAMP, default=func.now(), nullable=False)
     active = Column("active", bool, default=True)
+    

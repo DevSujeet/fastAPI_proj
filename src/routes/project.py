@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from fastapi.logger import logger
 from src.schemas.project import Project
 from typing import List
@@ -21,5 +21,5 @@ async def get_project_by_id(id:str) -> Project:
     print(f'return project for a given id')
 
 @router.post('')
-async def create_project_entry(user:Project) -> Project:
+async def create_project_entry(project:Project) -> Project:
     print(f'create a project entry')

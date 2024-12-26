@@ -6,7 +6,7 @@ class LocationData(Base):
     __tablename__ = 'location'
 
     location_id = Column('location_id', String(36), primary_key=True, default=lambda: str(uuid.uuid4()), nullable=False)
-    adbor_id = Column("adbor_id", String, primary_key=True, nullable=True)
+    adbor_id = Column("adbor_id", String, nullable=True)
     property_name = Column("property_name", String, nullable=True)
     address_type = Column("address_type", String, nullable=True)
     public_land_address = Column("public_land_address", String, nullable=True)

@@ -10,4 +10,3 @@ class ProjectData(Base):
     project_title = Column("project_title", String, nullable=False)
     project_status = Column("project_status", String, nullable=False)
     created = Column(TIMESTAMP, default=func.now(), nullable=False)
-

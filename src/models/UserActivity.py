@@ -14,4 +14,4 @@ class UserActivityData(Base):
     location_id = Column("location_id", String,ForeignKey("location.location_id"), nullable=True) #foriegn key to location table location_id
     action = Column("action", String, nullable=False)
     created = Column(TIMESTAMP, default=func.now(), nullable=False)
-
+    

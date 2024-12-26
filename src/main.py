@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import uvicorn
 from src.config.configs import _db_settings
 from typing import Dict
 import os
@@ -22,8 +23,8 @@ async def lifespan(app: FastAPI):
     yield
 
 def create_app(lifespan:lifespan) -> FastAPI:
-    fastapi_app = FastAPI(title="telstra infa co",
-                          description="Telstra document retrieval service",
+    fastapi_app = FastAPI(title="Telecom infa co",
+                          description="Telecom document retrieval service",
                           version="0.0.1",
                           lifespan=lifespan
                           )
@@ -52,7 +53,5 @@ app = create_app(lifespan=lifespan)
 # add_pagination(app)
 if __name__ == "__main__":
     uvicorn.run("main:app")
-
-
 
 

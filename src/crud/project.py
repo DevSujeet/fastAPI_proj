@@ -9,10 +9,10 @@ class ProjectCRUD(BaseCRUD):
         query = self.db_session.query(ProjectData).order_by(asc(ProjectData.created))
         return query.all()
 
-    def get_project_by_id(self, id:str):
+    def get_project_by_id(self, project_system_id:str):
         filters = []
         if id:
-            filters.append(ProjectData.project_system_id == id)
+            filters.append(ProjectData.project_system_id == project_system_id)
         query = self.db_session.query(ProjectData).filter(and_(*filters)).order_by(asc(ProjectData.created))
         project = query.first()
         if project:

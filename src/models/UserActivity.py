@@ -1,6 +1,6 @@
 
 import uuid
-from sqlalchemy import Column, TIMESTAMP, ForeignKey, func, String, BIGINT
+from sqlalchemy import Column, TIMESTAMP, ForeignKey, func, String
 from sqlalchemy.dialects.postgresql import JSONB
 from src.db import Base
 

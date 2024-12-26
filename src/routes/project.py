@@ -3,7 +3,7 @@ from fastapi.logger import logger
 from src.schemas.project import Project
 from typing import List
 
-from src.services.user import create_user, get_all_user, get_user_by_id
+from src.services.project import all_Project, get_project_by_id, create_project_entry
 
 router = APIRouter(
     prefix="/project",

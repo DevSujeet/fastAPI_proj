@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, TIMESTAMP, func, String
+from sqlalchemy import Column, TIMESTAMP, func, String, Boolean
 from src.db import Base
 
 
@@ -13,5 +13,4 @@ class RecordData(Base):
     file_type = Column("file_type", String, nullable=True)
     submitted_date = Column(TIMESTAMP, default=func.now(), nullable=False)
     record_date = Column(TIMESTAMP, default=func.now(), nullable=False)
-    active = Column("active", bool, default=True)
-    
+    active = Column("active", Boolean, default=True)

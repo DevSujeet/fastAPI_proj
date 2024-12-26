@@ -8,7 +8,7 @@ from src.schemas.user_activity import UserActivityCreate
 class UserActivityCRUD(BaseCRUD):
 
     def create_user_activity(self, activity:UserActivityCreate):
-        activity_obj = UserActivityData(**activity)
+        activity_obj = UserActivityData(**activity.model_dump())
         self.db_session.add(activity_obj)
 
         self.db_session.flush()

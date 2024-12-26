@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from datetime import datetime
 from src.enum.project_status import ProjectStatus
-from typing import Optional, List
+from typing import Optional
 from src.enum.project_status import ProjectStatus
 
 class Project(BaseModel):

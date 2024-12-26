@@ -12,6 +12,11 @@ router = APIRouter(
     responses={404: {"description": "user not in db"}}
 )
 
+@router.post('')
+async def create_user_entry(user:User) -> User:
+    user = create_user(user=user)
+    return user
+
 @router.get('/all')
 async def allUsers() -> List[User]:
     users = get_all_user()
@@ -23,7 +28,3 @@ async def user(id:str) -> User:
     user = get_user_by_id(id=id)
     return user
 
-@router.post('')
-async def create_user_entry(user:User) -> User:
-    user = create_user(user=user)
-    return user

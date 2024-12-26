@@ -9,9 +9,15 @@ from src.services.record import allRecord, get_record_by_id, create_record_entry
 
 router = APIRouter(
     prefix="/record",
-    tags=["user"],
+    tags=["record"],
     responses={404: {"description": "record not in db"}}
 )
+
+@router.post('')
+async def create_record_entry(record:Record) -> Record:
+    print(f'create a record entry')
+    create_record_entry(record=record)
+    return record
 
 @router.get('/all')
 async def allRecord() -> List[Record]:
@@ -26,7 +32,3 @@ async def get_record_by_id(id:str) -> Record:
     record = get_record_by_id(id=id)
     return record
 
-@router.post('')
-async def create_record_entry(record:Record) -> Record:
-    print(f'create a record entry')
-    create_record_entry(record=record)

@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy import and_, asc
 from src.schemas.project import Project
 from src.models.project import ProjectData
@@ -13,10 +14,14 @@ class ProjectCRUD(BaseCRUD):
         if id:
             filters.append(ProjectData.project_system_id == id)
         query = self.db_session.query(ProjectData).filter(and_(*filters)).order_by(asc(ProjectData.created))
-        return query.all()
+        project = query.first()
+        if project:
+            return project
+        else:
+            raise HTTPException(status_code=404, detail="Project not found")
 
     def create_project_entry(self, project:Project):
-        project_obj = ProjectData(**project)
+        project_obj = ProjectData(**project.model_dump())
         self.db_session.add(project_obj)
         print(f'create_project in crud post{project_obj}')
         self.db_session.flush()

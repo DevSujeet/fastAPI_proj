@@ -11,15 +11,18 @@ router = APIRouter(
     responses={404: {"description": "project not in db"}}
 )
 
+@router.post('')
+async def create_project_entry(project:Project) -> Project:
+    print(f'create a project entry')
+    project = create_project_entry(project=project)
+    return project
+
 @router.get('/all')
 async def all_Project() -> List[Project]:
-   print(f'get all project')
+   return all_Project()
 
 @router.get('')
 async def get_project_by_id(id:str) -> Project:
     # return record for a given id
-    print(f'return project for a given id')
+    return get_project_by_id(id=id)
 
-@router.post('')
-async def create_project_entry(project:Project) -> Project:
-    print(f'create a project entry')

@@ -11,6 +11,12 @@ router = APIRouter(
     responses={404: {"description": "location not in db"}}
 )
 
+@router.post('')
+async def create_location_entry(location:Location) -> Location:
+    print(f'create a record entry')
+    location = create_location_entry(location=location)
+    return location
+
 @router.get('/all')
 async def all_Location() -> List[Location]:
    print(f'get all records')
@@ -27,7 +33,3 @@ async def get_location_by_id(id:str) -> Location:
         raise BaseException
     return location
 
-@router.post('')
-async def create_location_entry(location:Location) -> Location:
-    print(f'create a record entry')
-    create_location_entry(location=location)

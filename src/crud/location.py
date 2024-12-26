@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy import and_, asc
 from src.models.location import LocationData
 from src.schemas.location import Location
@@ -13,10 +14,14 @@ class LocationCRUD(BaseCRUD):
         if id:
             filters.append(LocationData.location_id == id)
         query = self.db_session.query(LocationData).filter(and_(*filters)).order_by(asc(LocationData.submitted_date))
-        return query.all()
+        location = query.first()
+        if location:
+            return location
+        else:
+            raise HTTPException(status_code=404, detail="Location not found")
 
     def create_location_entry(self, location=Location):
-        location_obj = LocationData(**location)
+        location_obj = LocationData(**location.model_dump())
         self.db_session.add(location_obj)
         print(f'create_location in crud post{location_obj}')
         self.db_session.flush()

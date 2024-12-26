@@ -11,8 +11,7 @@
 
 from pydantic import BaseModel, computed_field
 from datetime import datetime
-from src.enum.actions import ActionType
-from typing import Optional, List
+from typing import Optional
 
 
 class Record(BaseModel):

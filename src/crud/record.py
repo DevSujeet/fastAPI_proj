@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy import and_, asc
 from src.schemas.record import Record
 from src.models.record import RecordData
@@ -14,10 +15,14 @@ class RecordCRUD(BaseCRUD):
         if id:
             filters.append(RecordData.id == id)
         query = self.db_session.query(RecordData).filter(and_(*filters)).order_by(asc(RecordData.submitted_date))
-        return query.all()
+        record = query.first()
+        if record:
+            return record
+        else:
+            raise HTTPException(status_code=404, detail="Record not found")
 
     def create_record_entry(self, record:Record):
-        record_obj = RecordData(**record)
+        record_obj = RecordData(**record.model_dump())
         self.db_session.add(record_obj)
         print(f'create_record in crud post{record_obj}')
         self.db_session.flush()

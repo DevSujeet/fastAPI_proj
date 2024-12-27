@@ -40,5 +40,6 @@ def delete_location_by_id(user_id:str, location_id:str):
         user_activity = UserActivityCreate(user_id=user_id,
                                            location_id=location_id,
                                            action=ActionType.DELETE)
+        UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)
         
         return location

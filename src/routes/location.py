@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends
 from fastapi.logger import logger
+from src.middleware import get_user_id_header
 from src.schemas.location import LocationCreate, Location
 from typing import List
 
@@ -18,14 +19,14 @@ async def create_location_entry(location:LocationCreate) -> Location:
     return location
 
 @router.get('/all')
-async def all_Location() -> List[Location]:
+async def all_Location(user_id=Depends(get_user_id_header)) -> List[Location]:
    print(f'get all records')
    locations = all_Location()
    return locations
 
 
 @router.get('')
-async def get_location_by_id(user_id:str, id:str) -> Location:
+async def get_location_by_id(id:str,user_id=Depends(get_user_id_header)) -> Location:
     # return record for a given id
     print(f'return record for a given id')
     location = get_location_by_id(user_id=user_id, id=id)

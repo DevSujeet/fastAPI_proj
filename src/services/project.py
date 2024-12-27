@@ -26,6 +26,10 @@ def create_project_entry(project:ProjectCreate):
      with get_session() as session:
         project_obj = ProjectCRUD(db_session=session).create_project(project=project)
 
+        if project.locations.length > 0:
+            # add the entry to project location association table
+            print("MISING:-add the entry to project location association table")
+
         # create user activity
         user_activity = UserActivityCreate(user_id=project.user_id,
                                            project_id=project_obj.project_system_id,
@@ -41,5 +45,6 @@ def delete_project_by_id(user_id:str, project_system_id:str):
         user_activity = UserActivityCreate(user_id=project.user_id,
                                            project_id=project_system_id,
                                            action=ActionType.CREATE)
+        UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)
         
         return project

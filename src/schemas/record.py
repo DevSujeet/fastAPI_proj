@@ -24,6 +24,9 @@ class Record(BaseModel):
     record_date: Optional[datetime]
     submitted_date: Optional[datetime]
 
+    project_id:Optional[str] # project id, check if this is needed when creating a record-or -take obj instead?
+    locations: Optional[str] # location_ids, check if this is needed when creating a record- or -- take obj instead?
+
     @computed_field(return_type=str)
     @property
     def complete_address(self):

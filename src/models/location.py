@@ -13,4 +13,5 @@ class LocationData(Base):
     state = Column("state", String, nullable=True)
     suburb = Column("suburb", String, nullable=True)
     postalcode = Column("postalcode", INT, nullable=True)
+    address_type = Column("address_type", String, nullable=True)
     submitted_date = Column(TIMESTAMP, default=func.now(), nullable=False)

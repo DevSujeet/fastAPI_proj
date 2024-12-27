@@ -5,3 +5,10 @@ class UserRole(str, Enum):
     DEVELOPER = "DEVELOPER"
     TESTER = "TESTER"
     MANAGER = "MANAGER"
+
+class AddressType(str, Enum):
+    ADBOR = "ADBOR"
+    SBMASTER = "SBMASTER"
+    LGAMASTER = "LGAMASTER"
+    STATEMASTER = "STATEMASTER"
+    POSTCODEMASTER = "POSTCODEMASTER"

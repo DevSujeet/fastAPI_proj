@@ -3,6 +3,8 @@ from datetime import datetime
 from src.enum.actions import ActionType
 from typing import Optional, List
 
+from src.enum.general import AddressType
+
 
 class Location(BaseModel):
     location_id:Optional[str]
@@ -14,6 +16,7 @@ class Location(BaseModel):
     suburb:Optional[str]
     postalcode:Optional[int]
     submitted_date: Optional[datetime]
+    address_type:Optional[AddressType]
 
     @computed_field(return_type=str)
     @property
@@ -44,4 +47,5 @@ class BatchLocationRequest(BaseModel):
     '''
     Batch location request
     '''
+    user_id: str
     locations: List[LocationRequest]

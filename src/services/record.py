@@ -29,6 +29,9 @@ def create_record_entry(record:RecordCreate):
                                            record_id=record_obj.record_id,
                                            action=ActionType.CREATE)
         UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)
+        # TODO: add the entry to project location association table
+        # or the record location group association table if the record is uploaded against a location group
+
         return record_obj
      
 def delete_record_entry(user_id:str, id:str):

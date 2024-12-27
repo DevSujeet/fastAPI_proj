@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from fastapi.logger import logger
-from src.schemas.project import Project
+from src.schemas.project import Project, ProjectCreate
 from typing import List
 
 from src.services.project import all_Project, get_project_by_id, create_project_entry
@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 @router.post('')
-async def create_project_entry(project:Project) -> Project:
+async def create_project_entry(project:ProjectCreate) -> Project:
     print(f'create a project entry')
     project = create_project_entry(project=project)
     return project
@@ -22,7 +22,7 @@ async def all_Project() -> List[Project]:
    return all_Project()
 
 @router.get('')
-async def get_project_by_id(id:str) -> Project:
+async def get_project_by_id(user_id:str, id:str) -> Project:
     # return record for a given id
-    return get_project_by_id(id=id)
+    return get_project_by_id(user_id=user_id, id=id)
 

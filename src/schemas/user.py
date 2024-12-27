@@ -8,4 +8,4 @@ class User(BaseModel):
     user_email:EmailStr
 
     class Config:
-        from_attributes = True
+        from_attributes = True #'orm_mode' has been renamed to 'from_attributes'

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from fastapi.logger import logger
-from src.schemas.record import Record
+from src.schemas.record import Record, RecordCreate
 from typing import List
 from src.db import get_session
 from sqlmodel import Session
@@ -14,7 +14,7 @@ router = APIRouter(
 )
 
 @router.post('')
-async def create_record_entry(record:Record) -> Record:
+async def create_record_entry(record:RecordCreate) -> Record:
     print(f'create a record entry')
     create_record_entry(record=record)
     return record
@@ -26,9 +26,9 @@ async def allRecord() -> List[Record]:
    return records
 
 @router.get('')
-async def get_record_by_id(id:str) -> Record:
+async def get_record_by_id(user_id:str, id:str) -> Record:
     # return record for a given id
     print(f'return record for a given id')
-    record = get_record_by_id(id=id)
+    record = get_record_by_id(user_id=user_id, id=id)
     return record
 

@@ -3,7 +3,7 @@ from src.schemas.user_activity import UserActivityCreate
 # from sqlmodel import Session
 from src.db import get_session
 
-def insert_user_activity(activity:UserActivityCreate):
+def create_user_activity(activity:UserActivityCreate):
     with get_session() as session:
         activity_curd = UserActivityCRUD(db_session=session)
         activity_curd.create_user_activity(activity=activity)

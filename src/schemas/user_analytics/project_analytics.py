@@ -6,7 +6,7 @@ from src.schemas.location import Location
 from src.schemas.project import Project
 
 # list of all the project by location
-class ProjectLocationsResponse(BaseModel):
+class ProjectsByLocationResponse(BaseModel):
     location: str
     projects: Optional[List[Project]]
 

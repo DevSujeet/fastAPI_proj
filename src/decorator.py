@@ -18,8 +18,8 @@ def timeit(func):
         result = func(*args, **kwargs)
         end = time.time()
         logger.debug(f"Time taken by {func.__name__} to run is {str(end - start)} seconds")
-        if isinstance(result, dict):
-            result["time_taken"] = round(end - start, 2)
-        return result
+        # if isinstance(result, dict):
+        #     result["time_taken"] = round(end - start, 2)
+        # return result
 
     return wrapper

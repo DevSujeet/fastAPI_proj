@@ -4,10 +4,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from src.config.configs import _db_settings
 
-# from src.models.location import LocationData
-# from src.models.project import ProjectData
-# from src.models.record import RecordData
-
 
 # from sqlmodel import create_engine as create_sqlmodel_engine, SQLModel, Session
 

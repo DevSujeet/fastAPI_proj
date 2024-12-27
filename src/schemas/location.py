@@ -5,7 +5,7 @@ from typing import Optional, List
 
 
 class Location(BaseModel):
-    location_id:str
+    location_id:Optional[str]
     adbor_id:Optional[str]
     property_name:str
     address_type:Optional[str]
@@ -22,8 +22,26 @@ class Location(BaseModel):
         return f"{self.public_land_address}, {self.suburb}, {self.state}, {self.postalcode} "
     
     class Config:
-        from_attributes = True
+        from_attributes = True #'orm_mode' has been renamed to 'from_attributes'
         use_enum_values = True
         json_encoders = {
             datetime: lambda v: v.timestamp() * 1000,
         }
+
+class LocationCreate(Location):
+    user_id: str
+
+
+class LocationRequest(BaseModel):
+    '''
+    Location request
+    '''
+    user_id: str
+    location_id:Optional[str]
+    adbor_id:Optional[str]
+
+class BatchLocationRequest(BaseModel):
+    '''
+    Batch location request
+    '''
+    locations: List[LocationRequest]

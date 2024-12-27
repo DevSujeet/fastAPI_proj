@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends
 from fastapi.logger import logger
-#   whether in contract, tort, or otherwise, arising from the software or its use.
 from logging import getLogger
+
+from src.schemas.location import LocationRequest
+from src.services.analytics import getLocationOverView, getProjectOverView, getProjectsByLocation
 
 router = APIRouter(
     prefix="/analytics",
@@ -11,14 +13,14 @@ router = APIRouter(
 )
 
 
-@router.get("/all_project_locations")
-async def get_all_project_locations_by(location:str):
+@router.get("/all_projects_by_location")
+async def get_all_projects_by_location(location:LocationRequest):
     """
-    ## get_project_location_overview
-    Endpoint to fetch all the projects state wide
+    get projects by location    
     """
-    logger.debug("get_all_project_locations_by")
-    return f"get_project_location_overview, for {location}!"
+    logger.debug(f"get_project_location_overview, for {location}!")
+    return getProjectsByLocation(location)
+
 
 @router.get("/project_overview")
 async def get_project_overview(location:str):

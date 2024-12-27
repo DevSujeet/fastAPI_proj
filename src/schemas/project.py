@@ -11,8 +11,12 @@ class Project(BaseModel):
     created: Optional[datetime]
 
     class Config:
-        from_attributes = True
+        from_attributes = True #'orm_mode' has been renamed to 'from_attributes'
         use_enum_values = True
         json_encoders = {
             datetime: lambda v: v.timestamp() * 1000,
         }
+
+
+class ProjectCreate(Project):
+    user_id: str

@@ -15,9 +15,10 @@ class UserCRUD(BaseCRUD):
         return query.all()
     
     def get_user(self, user_id:str):
-        filters = []
-        if user_id:
-            filters.append(UserData.user_id == user_id)
+        if not user_id:
+            raise HTTPException(status_code=400, detail="User ID must be provided")
+    
+        filters = [UserData.user_id == user_id]
         query = self.db_session.query(UserData).filter(and_(*filters)).order_by(asc(UserData.created))
         user = query.first()
         if user:
@@ -35,3 +36,12 @@ class UserCRUD(BaseCRUD):
         self.db_session.refresh(user_obj)
         print(f'user is created {user_obj}')
         return user_obj
+    
+    def delete_user(self, user_id:str):
+        user = self.get_user(user_id=user_id)
+        if user:
+            self.db_session.delete(user)
+            self.db_session.commit()
+            return user
+        else:
+            raise HTTPException(status_code=404, detail="User not found")

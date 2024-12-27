@@ -3,7 +3,7 @@ from fastapi.logger import logger
 from typing import Dict
 from src.schemas.user_activity import UserActivityResponse, UserActivityCreate
 from typing import List
-from src.services.userActivity import insert_user_activity, get_activities_by_userid, get_all_user_activities
+from src.services.userActivity import create_user_activity, get_activities_by_userid, get_all_user_activities
 from src.db import get_session
 
 router = APIRouter(
@@ -24,4 +24,4 @@ async def activity_by_user(user_id:str) -> List[UserActivityResponse]:
 
 @router.post('')
 async def create_user_activity(activity:UserActivityCreate):
-    insert_user_activity(activity=activity)
+    create_user_activity(activity=activity)

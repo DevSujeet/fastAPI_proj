@@ -11,8 +11,7 @@ class UserRecordActivityResponse(BaseModel):
     created: datetime
 
     class Config:
-        orm_mode = True
-
+        from_attributes = True #'orm_mode' has been renamed to 'from_attributes'
 
 '''
 {

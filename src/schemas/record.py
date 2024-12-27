@@ -31,8 +31,14 @@ class Record(BaseModel):
         return f"{self.public_land_address}, {self.suburb}, {self.state}, {self.postalcode} "
     
     class Config:
-        from_attributes = True
+        from_attributes = True #'orm_mode' has been renamed to 'from_attributes'
         use_enum_values = True
         json_encoders = {
             datetime: lambda v: v.timestamp() * 1000,
         }
+
+class RecordCreate(Record):
+    user_id: str
+
+class RecordResponse(Record):
+    record_id:str

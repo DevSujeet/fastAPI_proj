@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from fastapi.logger import logger
-from src.middleware import get_user_id_header
+from src.middleware.middleware import get_user_id_header
 from src.schemas.location import LocationCreate, Location
 from typing import List
 

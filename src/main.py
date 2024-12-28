@@ -4,7 +4,7 @@ from src.config.configs import _db_settings
 from typing import Dict
 import os
 from src.routes import intro, user, record, location, project, analytics, userActivity
-from src.middleware import add_process_time, source_exception_handler
+from src.middleware.middleware import add_process_time, source_exception_handler, get_user_id_header
 from src.exceptions.exception import SourceException
 # from fastapi_pagination import add_pagination
 from contextlib import asynccontextmanager
@@ -31,7 +31,7 @@ def create_app(lifespan:lifespan) -> FastAPI:
                           )
     # Middleware Settings
     fastapi_app.middleware("http")(add_process_time)
-    # fastapi_app.middleware("http")(set_project_context)
+    fastapi_app.middleware("http")(get_user_id_header)
     fastapi_app.add_exception_handler(SourceException, source_exception_handler)
     for router in get_fastapi_routers():
         fastapi_app.include_router(router)

@@ -8,8 +8,7 @@ import os
 router = APIRouter(
     prefix="/intro",
     tags=["intro"],
-    # dependencies=[Depends(get_project_header)],
-    # responses={404: {"description": "X_ProjectID field is required in header"}}
+    # responses={404: {"description": "X_header field is required in header"}}
 )
 
 db_settings_instance = _db_settings()

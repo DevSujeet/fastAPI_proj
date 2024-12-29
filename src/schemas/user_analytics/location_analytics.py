@@ -6,3 +6,4 @@ class LocationOverViewResponse(BaseModel):
     active: Optional[List[Location]]
     completed: Optional[List[Location]]
     on_hold: Optional[List[Location]]
+

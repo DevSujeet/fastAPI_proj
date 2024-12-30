@@ -19,6 +19,6 @@ class UserActivityCreate(BaseModel):
 
 
 class UserActivityResponse(UserActivityCreate):
-    id: int
+    id: str
     created: datetime
 

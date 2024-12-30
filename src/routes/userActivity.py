@@ -14,13 +14,15 @@ router = APIRouter(
 
 @router.get('/all')
 async def all_users_activities() -> List[UserActivityResponse]:
-    return get_all_user_activities()
+    activities = get_all_user_activities()
+    return activities
     
 
 @router.get('/byUser')
 async def activity_by_user(user_id:str) -> List[UserActivityResponse]:
     # return user for a given user_id
-    return get_activities_by_userid(user_id=user_id)
+    activity = get_activities_by_userid(user_id=user_id)
+    return activity
 
 @router.post('')
 async def create_user_activity(activity:UserActivityCreate):

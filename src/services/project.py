@@ -7,31 +7,31 @@ from src.crud.activity import UserActivityCRUD
 
 def all_Project():
     with get_session() as session:
-        projects = ProjectCRUD(db_session=session).get_all_project()
+        projects = ProjectCRUD(db_session=session).all_Project()
         return projects
 
-def get_project_by_id(id:str):
+def get_project_by_id(user_id:str, project_system_id:str):
     with get_session() as session:
-        project = ProjectCRUD(db_session=session).get_project(project_system_id=id)
+        project = ProjectCRUD(db_session=session).get_project_by_id(project_system_id=project_system_id)
 
         # create user activity
-        user_activity = UserActivityCreate(user_id=project.user_id,
+        user_activity = UserActivityCreate(user_id=user_id,
                                            project_id=project.project_system_id,
                                            action=ActionType.SEARCH)
         UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)
 
         return project
 
-def create_project_entry(project:Project):
+def create_project_entry(user_id:str, project:Project):
      with get_session() as session:
-        project_obj = ProjectCRUD(db_session=session).create_project(project=project)
+        project_obj = ProjectCRUD(db_session=session).create_project_entry(project=project)
 
-        if project.locations.length > 0:
-            # add the entry to project location association table
+        if project.locations and len(project.locations) > 0:
+            # Todo:- add the entry to project location association table
             print("MISING:-add the entry to project location association table")
 
         # create user activity
-        user_activity = UserActivityCreate(user_id=project.user_id,
+        user_activity = UserActivityCreate(user_id=user_id,
                                            project_id=project_obj.project_system_id,
                                            action=ActionType.CREATE)
         UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)
@@ -40,11 +40,11 @@ def create_project_entry(project:Project):
      
 def delete_project_by_id(user_id:str, project_system_id:str):
     with get_session() as session:
-        project = ProjectCRUD(db_session=session).delete_project(project_system_id=id)
+        project = ProjectCRUD(db_session=session).delete_project_by_id(project_system_id=id)
         # create user activity
-        user_activity = UserActivityCreate(user_id=project.user_id,
+        user_activity = UserActivityCreate(user_id=user_id,
                                            project_id=project_system_id,
-                                           action=ActionType.CREATE)
+                                           action=ActionType.DELETE)
         UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)
         
         return project

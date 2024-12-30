@@ -22,7 +22,7 @@ class ProjectCRUD(BaseCRUD):
             raise HTTPException(status_code=404, detail="Project not found")
 
     def create_project_entry(self, project:Project):
-        project_obj = ProjectData(**project.model_dump())
+        project_obj = ProjectData(**project.model_dump(exclude={"locations"}))
         self.db_session.add(project_obj)
         print(f'create_project in crud post{project_obj}')
         self.db_session.flush()

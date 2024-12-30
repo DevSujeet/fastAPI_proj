@@ -7,8 +7,7 @@ import os
 
 router = APIRouter(
     prefix="/intro",
-    tags=["intro"],
-    # responses={404: {"description": "X_header field is required in header"}}
+    tags=["intro"]
 )
 
 db_settings_instance = _db_settings()

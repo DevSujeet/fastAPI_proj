@@ -19,7 +19,6 @@ class Location(BaseModel):
     address_type:Optional[AddressType]
 
     @computed_field(return_type=str)
-    @property
     def complete_address(self) -> str:
         """Getter for the complete address. this also be part of the json/model dump"""
         return f"{self.public_land_address}, {self.suburb}, {self.state}, {self.postalcode} "
@@ -30,16 +29,12 @@ class Location(BaseModel):
         json_encoders = {
             datetime: lambda v: v.timestamp() * 1000,
         }
-
-class LocationCreate(Location):
-    user_id: str
-
+        allow_extra = True
 
 class LocationRequest(BaseModel):
     '''
     Location request
     '''
-    user_id: str
     location_id:Optional[str]
     adbor_id:Optional[str]
 

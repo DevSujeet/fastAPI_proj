@@ -14,6 +14,7 @@ class UserActivityCRUD(BaseCRUD):
         self.db_session.flush()
         self.db_session.commit()
         self.db_session.refresh(activity_obj)
+        return activity_obj
         
     
     def get_all_user_activity(self):

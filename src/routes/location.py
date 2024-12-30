@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
 from fastapi.logger import logger
-from src.middleware.middleware import get_user_id_header
-from src.schemas.location import LocationCreate, Location
+from src.dependencies import get_user_id_header
+from src.schemas.location import Location
 from typing import List
 
-from src.services.location import all_Location, get_location_by_id, create_location_entry
+import src.services.location as location_service
 
 router = APIRouter(
     prefix="/location",
@@ -13,23 +13,22 @@ router = APIRouter(
 )
 
 @router.post('')
-async def create_location_entry(location:LocationCreate) -> Location:
-    print(f'create a record entry')
-    location = create_location_entry(location=location)
-    return location
+async def create_location_entry(location:Location, user_id=Depends(get_user_id_header)) -> Location:
+    print(f'create a location entry')
+    location_obj = location_service.create_location_entry(location=location, user_id=user_id)
+    return location_obj
 
 @router.get('/all')
 async def all_Location(user_id=Depends(get_user_id_header)) -> List[Location]:
-   print(f'get all records')
-   locations = all_Location()
+   print(f'get all location')
+   locations = location_service.all_Location(user_id=user_id)
    return locations
 
 
 @router.get('')
 async def get_location_by_id(id:str,user_id=Depends(get_user_id_header)) -> Location:
-    # return record for a given id
-    print(f'return record for a given id')
-    location = get_location_by_id(user_id=user_id, id=id)
+    print(f'return location for a given id')
+    location = location_service.get_location_by_id(user_id=user_id, id=id)
     if location is None:
         raise BaseException
     return location

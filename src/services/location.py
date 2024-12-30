@@ -1,13 +1,13 @@
 from src.crud.activity import UserActivityCRUD
 from src.db import get_session
 from src.enum.actions import ActionType
-from src.schemas.location import Location,LocationCreate
+from src.schemas.location import Location
 from src.crud.location import LocationCRUD
 from src.schemas.user_activity import UserActivityCreate
 
-def all_Location():
+def all_Location(user_id:str):
     with get_session() as session:
-        location = LocationCRUD(db_session=session).get_all_location()
+        location = LocationCRUD(db_session=session).all_Location()
         return location
 
 def get_location_by_id(user_id:str, id:str):
@@ -22,11 +22,11 @@ def get_location_by_id(user_id:str, id:str):
         
         return location
 
-def create_location_entry(location=LocationCreate):
+def create_location_entry(user_id: str, location:Location):
     with get_session() as session:
         location_obj = LocationCRUD(db_session=session).create_location_entry(location=location)
         # create user activity
-        user_activity = UserActivityCreate(user_id=location.user_id,
+        user_activity = UserActivityCreate(user_id=user_id,
                                            location_id=location_obj.location_id,
                                            action=ActionType.CREATE)
         UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)

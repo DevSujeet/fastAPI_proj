@@ -1,6 +1,6 @@
 from src.db import get_session
 from src.enum.actions import ActionType
-from src.schemas.project import Project, ProjectCreate
+from src.schemas.project import Project
 from src.schemas.user_activity import UserActivityCreate
 from src.crud.project import ProjectCRUD
 from src.crud.activity import UserActivityCRUD
@@ -22,7 +22,7 @@ def get_project_by_id(id:str):
 
         return project
 
-def create_project_entry(project:ProjectCreate):
+def create_project_entry(project:Project):
      with get_session() as session:
         project_obj = ProjectCRUD(db_session=session).create_project(project=project)
 

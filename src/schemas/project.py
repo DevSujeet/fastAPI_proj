@@ -18,7 +18,3 @@ class Project(BaseModel):
         json_encoders = {
             datetime: lambda v: v.timestamp() * 1000,
         }
-
-
-class ProjectCreate(Project):
-    user_id: str

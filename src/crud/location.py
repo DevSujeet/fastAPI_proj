@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy import and_, asc
 from src.models.location import LocationData
-from src.schemas.location import LocationCreate, Location
+from src.schemas.location import Location
 from src.crud.base_curd import BaseCRUD
 
 class LocationCRUD(BaseCRUD):
@@ -21,8 +21,8 @@ class LocationCRUD(BaseCRUD):
         else:
             raise HTTPException(status_code=404, detail="Location not found")
     
-    def create_location_entry(self, location=LocationCreate):
-        location_obj = LocationData(**location.model_dump())
+    def create_location_entry(self, location=Location):
+        location_obj = LocationData(**location.model_dump(exclude={"complete_address"}))
         self.db_session.add(location_obj)
         print(f'create_location in crud post{location_obj}')
         self.db_session.flush()

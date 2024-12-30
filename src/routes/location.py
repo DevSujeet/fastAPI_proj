@@ -9,7 +9,8 @@ import src.services.location as location_service
 router = APIRouter(
     prefix="/location",
     tags=["location"],
-    responses={404: {"description": "location not in db"}}
+    dependencies=[Depends(get_user_id_header)],
+    responses={404: {"description": "x_user_id field is required in header"}}
 )
 
 @router.post('')

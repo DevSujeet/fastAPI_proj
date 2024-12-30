@@ -9,7 +9,7 @@ def create_user_activity(activity:UserActivityCreate):
         activity_curd.create_user_activity(activity=activity)
     
 
-def get_all_user_activities():
+def get_all_user_activities(user_id:str):
     with get_session() as session:
         activity_curd = UserActivityCRUD(db_session=session)
         activities = activity_curd.get_all_user_activity()

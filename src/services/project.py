@@ -10,13 +10,13 @@ def all_Project():
         projects = ProjectCRUD(db_session=session).all_Project()
         return projects
 
-def get_project_by_id(user_id:str, project_system_id:str):
+def get_project_by_id(user_id:str, project_id:str):
     with get_session() as session:
-        project = ProjectCRUD(db_session=session).get_project_by_id(project_system_id=project_system_id)
+        project = ProjectCRUD(db_session=session).get_project_by_id(project_id=project_id)
 
         # create user activity
         user_activity = UserActivityCreate(user_id=user_id,
-                                           project_id=project.project_system_id,
+                                           project_id=project.project_id,
                                            action=ActionType.SEARCH)
         UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)
 
@@ -32,18 +32,18 @@ def create_project_entry(user_id:str, project:Project):
 
         # create user activity
         user_activity = UserActivityCreate(user_id=user_id,
-                                           project_id=project_obj.project_system_id,
+                                           project_id=project_obj.project_id,
                                            action=ActionType.CREATE)
         UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)
         # return project_obj
         return project_obj
      
-def delete_project_by_id(user_id:str, project_system_id:str):
+def delete_project_by_id(user_id:str, project_id:str):
     with get_session() as session:
-        project = ProjectCRUD(db_session=session).delete_project_by_id(project_system_id=id)
+        project = ProjectCRUD(db_session=session).delete_project_by_id(project_id=project_id)
         # create user activity
         user_activity = UserActivityCreate(user_id=user_id,
-                                           project_id=project_system_id,
+                                           project_id=project_id,
                                            action=ActionType.DELETE)
         UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)
         

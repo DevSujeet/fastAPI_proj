@@ -24,12 +24,12 @@ async def all_Project(user_id=Depends(get_user_id_header)) -> List[Project]:
    return ProjectService.all_Project()
 
 @router.get('')
-async def get_project_by_id(project_system_id:str, user_id=Depends(get_user_id_header)) -> Project:
+async def get_project_by_id(project_id:str, user_id=Depends(get_user_id_header)) -> Project:
     # return project for a given id
-    return ProjectService.get_project_by_id(user_id=user_id, id=project_system_id)
+    return ProjectService.get_project_by_id(user_id=user_id, project_id=project_id)
 
 @router.delete('')
-async def delete_project_by_id(project_system_id:str, user_id=Depends(get_user_id_header)) -> Project:
+async def delete_project_by_id(project_id:str, user_id=Depends(get_user_id_header)) -> Project:
     # return project for a given id
-    return ProjectService.delete_project_by_id(user_id=user_id, project_system_id=id)
+    return ProjectService.delete_project_by_id(user_id=user_id, project_id=project_id)
 

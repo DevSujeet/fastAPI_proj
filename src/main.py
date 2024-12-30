@@ -37,7 +37,7 @@ def create_app(lifespan:lifespan) -> FastAPI:
 
     # fastapi_app.add_middleware(RedisCacheMiddleware, cache_settings=cache_settings)
 
-    fastapi_app.add_exception_handler(SourceException, source_exception_handler)
+    # fastapi_app.add_exception_handler(SourceException, source_exception_handler)
     for router in get_fastapi_routers():
         fastapi_app.include_router(router)
 

@@ -39,7 +39,6 @@ class CacheSettings(BaseSettings):
     cache_host:str = Field(alias='cache_host')
     cache_port: str = Field(alias='cache_port')
     cache_password: str = Field(alias='cache_password')
-    # cache_db: str = Field(alias='cache_db')
     cache_username: str = Field(alias='cache_username')
 
     default_ttl: int = 300 #seconds

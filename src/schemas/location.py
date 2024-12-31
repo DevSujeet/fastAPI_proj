@@ -7,7 +7,6 @@ from src.enum.general import AddressType
 
 
 class Location(BaseModel):
-    location_id:Optional[str]
     adbor_id:Optional[str]
     property_name:str
     address_type:Optional[str]
@@ -44,3 +43,14 @@ class BatchLocationRequest(BaseModel):
     '''
     user_id: str
     locations: List[LocationRequest]
+
+class LocationResponse(Location):
+    location_id:str
+
+    class Config:
+        from_attributes = True #'orm_mode' has been renamed to 'from_attributes'
+        use_enum_values = True
+        json_encoders = {
+            datetime: lambda v: v.timestamp() * 1000,
+        }
+        allow_extra = True

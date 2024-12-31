@@ -9,3 +9,4 @@ class User(BaseModel):
 
     class Config:
         from_attributes = True #'orm_mode' has been renamed to 'from_attributes'
+        use_enum_values = True

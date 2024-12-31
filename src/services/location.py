@@ -35,7 +35,7 @@ def create_location_entry(user_id: str, location:Location):
 
 def delete_location_by_id(user_id:str, location_id:str):
     with get_session() as session:
-        location = LocationCRUD(db_session=session).delete_location_by_id(location_id=id)
+        location = LocationCRUD(db_session=session).delete_location_by_id(id=location_id)
         # create user activity
         user_activity = UserActivityCreate(user_id=user_id,
                                            location_id=location_id,

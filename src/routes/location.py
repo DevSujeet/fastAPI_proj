@@ -4,6 +4,7 @@ from src.dependencies import get_user_id_header
 from src.schemas.location import Location, LocationResponse
 from typing import List
 
+from src.schemas.pagination.pagination import PageParams, PagedResponseSchema
 import src.services.location as location_service
 
 router = APIRouter(
@@ -19,10 +20,10 @@ async def create_location_entry(location:Location, user_id=Depends(get_user_id_h
     location_obj = location_service.create_location_entry(location=location, user_id=user_id)
     return location_obj
 
-@router.get('/all')
-async def all_Location(user_id=Depends(get_user_id_header)) -> List[LocationResponse]:
+@router.get('/all', response_model=PagedResponseSchema[LocationResponse])
+async def all_Location(user_id=Depends(get_user_id_header), page_params: PageParams = Depends()):
    print(f'get all location')
-   locations = location_service.all_Location(user_id=user_id)
+   locations = location_service.all_Location(user_id=user_id,page_params=page_params)
    return locations
 
 

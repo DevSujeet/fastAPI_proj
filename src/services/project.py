@@ -1,13 +1,14 @@
 from src.db import get_session
 from src.enum.actions import ActionType
+from src.schemas.pagination.pagination import PageParams
 from src.schemas.project import Project
 from src.schemas.user_activity import UserActivityCreate
 from src.crud.project import ProjectCRUD
 from src.crud.activity import UserActivityCRUD
 
-def all_Project():
+def all_Project(page_params:PageParams):
     with get_session() as session:
-        projects = ProjectCRUD(db_session=session).all_Project()
+        projects = ProjectCRUD(db_session=session).all_Project(page_params=page_params)
         return projects
 
 def get_project_by_id(user_id:str, project_id:str):
@@ -32,7 +33,7 @@ def create_project_entry(user_id:str, project:Project):
 
         # create user activity
         user_activity = UserActivityCreate(user_id=user_id,
-                                           project_id=project_obj.project_id,
+                                           project_id=project_obj.get('project_id'),
                                            action=ActionType.CREATE)
         UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)
         # return project_obj

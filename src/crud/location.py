@@ -1,13 +1,14 @@
 from fastapi import HTTPException
 from sqlalchemy import and_, asc
 from src.models.location import LocationData
-from src.schemas.location import Location
+from src.schemas.location import Location, LocationResponse
 from src.crud.base_curd import BaseCRUD
+from src.schemas.pagination.pagination import PageParams, paginate
 
 class LocationCRUD(BaseCRUD):
-    def all_Location(self):
+    def all_Location(self, page_params:PageParams):
         query = self.db_session.query(LocationData).order_by(asc(LocationData.submitted_date))
-        return query.all()
+        return paginate(page_params, query, LocationResponse)
 
     def get_location_by_id(self, id:str):
         if not id:
@@ -28,7 +29,7 @@ class LocationCRUD(BaseCRUD):
         self.db_session.flush()
         self.db_session.commit()
         self.db_session.refresh(location_obj)
-        print(f'location is created {location_obj}')
+        print(f'location is created {location_obj.__dict__}')
         return location_obj
     
     def delete_location_by_id(self, id:str):

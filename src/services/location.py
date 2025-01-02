@@ -3,11 +3,12 @@ from src.db import get_session
 from src.enum.actions import ActionType
 from src.schemas.location import Location
 from src.crud.location import LocationCRUD
+from src.schemas.pagination.pagination import PageParams
 from src.schemas.user_activity import UserActivityCreate
 
-def all_Location(user_id:str):
+def all_Location(user_id:str, page_params:PageParams):
     with get_session() as session:
-        location = LocationCRUD(db_session=session).all_Location()
+        location = LocationCRUD(db_session=session).all_Location(page_params=page_params)
         return location
 
 def get_location_by_id(user_id:str, id:str):
@@ -30,7 +31,7 @@ def create_location_entry(user_id: str, location:Location):
                                            location_id=location_obj.location_id,
                                            action=ActionType.CREATE)
         UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)
-        return location
+        return location_obj
     
 
 def delete_location_by_id(user_id:str, location_id:str):

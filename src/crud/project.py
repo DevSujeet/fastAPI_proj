@@ -2,14 +2,15 @@ from sqlalchemy.exc import IntegrityError
 import sqlite3
 from fastapi import HTTPException
 from sqlalchemy import and_, asc
+from src.schemas.pagination.pagination import PageParams, paginate
 from src.schemas.project import Project
 from src.models.project import ProjectData
 from src.crud.base_curd import BaseCRUD
 
 class ProjectCRUD(BaseCRUD):
-    def all_Project(self):
+    def all_Project(self, page_params:PageParams):
         query = self.db_session.query(ProjectData).order_by(asc(ProjectData.created))
-        return query.all()
+        return paginate(page_params, query, Project)
 
     def get_project_by_id(self, project_id:str):
         if not project_id:
@@ -32,7 +33,10 @@ class ProjectCRUD(BaseCRUD):
             self.db_session.commit()
             self.db_session.refresh(project_obj)
             print(f'project is created {project_obj}')
-            return project_obj
+            project_dict = project_obj.__dict__.copy()
+            project_dict.pop("_sa_instance_state", None)  # Remove SQLAlchemy internal state
+            return project_dict
+            # return project_obj
         except IntegrityError as e:
             print(f"IntegrityError: {e}")  # Log the full exception
             print(f"Exception details: {e.orig}")  # Print out the underlying database exception details

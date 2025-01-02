@@ -20,7 +20,7 @@ async def create_location_entry(location:Location, user_id=Depends(get_user_id_h
     location_obj = location_service.create_location_entry(location=location, user_id=user_id)
     return location_obj
 
-@router.get('/all', response_model=PagedResponseSchema[LocationResponse])
+@router.post('/all', response_model=PagedResponseSchema[LocationResponse])
 async def all_Location(page_params: PageParams, user_id=Depends(get_user_id_header)):
    print(f'get all location')
    locations = location_service.all_Location(user_id=user_id,page_params=page_params)

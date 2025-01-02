@@ -1,14 +1,15 @@
 from src.crud.activity import UserActivityCRUD
 from src.db import get_session
 from src.enum.actions import ActionType
+from src.schemas.pagination.pagination import PageParams
 from src.schemas.record import Record
 from src.crud.record import RecordCRUD
 from src.schemas.user_activity import UserActivityCreate
 
 
-def allRecord(user_id:str):
+def allRecord(user_id:str, page_params: PageParams):
      with get_session() as session:
-        records = RecordCRUD(db_session=session).get_all_record()
+        records = RecordCRUD(db_session=session).get_all_record(page_params=page_params)
         return records
 
 def get_record_by_id(user_id:str, record_id:str):

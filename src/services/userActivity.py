@@ -1,4 +1,5 @@
 from src.crud.activity import UserActivityCRUD
+from src.schemas.pagination.pagination import PageParams
 from src.schemas.user_activity import UserActivityCreate
 # from sqlmodel import Session
 from src.db import get_session
@@ -9,10 +10,10 @@ def create_user_activity(activity:UserActivityCreate):
         activity_curd.create_user_activity(activity=activity)
     
 
-def get_all_user_activities(user_id:str):
+def get_all_user_activities(user_id:str, page_params:PageParams):
     with get_session() as session:
         activity_curd = UserActivityCRUD(db_session=session)
-        activities = activity_curd.get_all_user_activity()
+        activities = activity_curd.get_all_user_activity(page_params=page_params)
         return activities
 
 def get_activities_by_userid(user_id:str):

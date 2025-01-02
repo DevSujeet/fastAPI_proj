@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi.logger import logger
 from typing import Dict
 from src.dependencies import get_user_id_header
+from src.schemas.pagination.pagination import PageParams, PagedResponseSchema
 from src.schemas.user_activity import UserActivityResponse, UserActivityCreate
 from typing import List
 import src.services.userActivity as UserActivityService
@@ -14,9 +15,9 @@ router = APIRouter(
     responses={404: {"description": "x_user_id field is required in header"}}
 )
 
-@router.get('/all')
-async def all_users_activities(user_id=Depends(get_user_id_header)) -> List[UserActivityResponse]:
-    activities = UserActivityService.get_all_user_activities(user_id=user_id)
+@router.post('/all', response_model=PagedResponseSchema[UserActivityResponse])
+async def all_users_activities(page_params:PageParams, user_id=Depends(get_user_id_header)):
+    activities = UserActivityService.get_all_user_activities(user_id=user_id,page_params=page_params)
     return activities
     
 

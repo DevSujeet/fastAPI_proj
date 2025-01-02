@@ -1,7 +1,7 @@
 from src.db import get_session
 from src.enum.actions import ActionType
 from src.schemas.pagination.pagination import PageParams
-from src.schemas.project import Project
+from src.schemas.project import Project, ProjectCreate
 from src.schemas.user_activity import UserActivityCreate
 from src.crud.project import ProjectCRUD
 from src.crud.activity import UserActivityCRUD
@@ -23,13 +23,13 @@ def get_project_by_id(user_id:str, project_id:str):
 
         return project
 
-def create_project_entry(user_id:str, project:Project):
+def create_project_entry(user_id:str, project:ProjectCreate):
      with get_session() as session:
         project_obj = ProjectCRUD(db_session=session).create_project_entry(project=project)
 
         if project.locations and len(project.locations) > 0:
             # Todo:- add the entry to project location association table
-            print("MISING:-add the entry to project location association table")
+            print("add the entry to project location association table")
 
         # create user activity
         user_activity = UserActivityCreate(user_id=user_id,

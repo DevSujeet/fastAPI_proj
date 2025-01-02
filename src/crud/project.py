@@ -3,7 +3,7 @@ import sqlite3
 from fastapi import HTTPException
 from sqlalchemy import and_, asc
 from src.schemas.pagination.pagination import PageParams, paginate
-from src.schemas.project import Project, ProjectResponse
+from src.schemas.project import Project, ProjectCreate, ProjectResponse
 from src.models.project import ProjectData
 from src.crud.base_curd import BaseCRUD
 
@@ -25,7 +25,7 @@ class ProjectCRUD(BaseCRUD):
         else:
             raise HTTPException(status_code=404, detail="Project not found")
 
-    def create_project_entry(self, project:Project):
+    def create_project_entry(self, project:ProjectCreate):
         try:
             project_obj = ProjectData(**project.model_dump(exclude={"locations"}))
             self.db_session.add(project_obj)

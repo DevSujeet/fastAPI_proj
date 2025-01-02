@@ -2,7 +2,8 @@ from fastapi import HTTPException
 from sqlalchemy import and_, asc
 from src.crud.base_curd import BaseCRUD
 from src.models.UserActivity import UserActivityData
-from src.schemas.user_activity import UserActivityCreate
+from src.schemas.pagination.pagination import PageParams, paginate
+from src.schemas.user_activity import UserActivityCreate, UserActivityResponse
 # from sqlmodel import select
 
 class UserActivityCRUD(BaseCRUD):
@@ -17,9 +18,10 @@ class UserActivityCRUD(BaseCRUD):
         return activity_obj
         
     
-    def get_all_user_activity(self):
+    def get_all_user_activity(self, page_params:PageParams):
         query = self.db_session.query(UserActivityData).order_by(asc(UserActivityData.created))
-        return query.all()
+        return paginate(page_params=page_params, query=query, ResponseSchema=UserActivityResponse, model=UserActivityData)
+        # return query.all()
     
     def get_activities_by_user(self, user_id:str):
         filters = []

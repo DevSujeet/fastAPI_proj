@@ -8,7 +8,8 @@ from src.schemas.pagination.pagination import PageParams, paginate
 class LocationCRUD(BaseCRUD):
     def all_Location(self, page_params:PageParams):
         query = self.db_session.query(LocationData).order_by(asc(LocationData.submitted_date))
-        return paginate(page_params, query, LocationResponse)
+        return paginate(page_params=page_params, query=query, ResponseSchema=LocationResponse, model=LocationData)
+        # return paginate(page_params, query, LocationResponse)
 
     def get_location_by_id(self, id:str):
         if not id:

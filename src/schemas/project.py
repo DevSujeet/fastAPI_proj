@@ -8,9 +8,7 @@ class Project(BaseModel):
     project_id:str #unique id provided by client while creating
     project_title:str
     project_status:ProjectStatus = Field(default=ProjectStatus.ACTIVE)
-    created: Optional[datetime]
-    # also will have a list of location ids
-    locations: Optional[List[str]] = []
+    
 
     class Config:
         from_attributes = True #'orm_mode' has been renamed to 'from_attributes'
@@ -18,3 +16,14 @@ class Project(BaseModel):
         json_encoders = {
             datetime: lambda v: v.timestamp() * 1000,
         }
+
+class ProjectCreate(Project):
+    # also will have a list of location ids
+    locations: Optional[List[str]] = []
+
+class ProjectUpdate(Project):
+    # also will have a list of location ids
+    locations: Optional[List[str]] = []
+
+class ProjectResponse(Project):
+    created: Optional[datetime]

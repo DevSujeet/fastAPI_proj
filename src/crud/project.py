@@ -3,14 +3,15 @@ import sqlite3
 from fastapi import HTTPException
 from sqlalchemy import and_, asc
 from src.schemas.pagination.pagination import PageParams, paginate
-from src.schemas.project import Project
+from src.schemas.project import Project, ProjectResponse
 from src.models.project import ProjectData
 from src.crud.base_curd import BaseCRUD
 
 class ProjectCRUD(BaseCRUD):
     def all_Project(self, page_params:PageParams):
         query = self.db_session.query(ProjectData).order_by(asc(ProjectData.created))
-        return paginate(page_params, query, Project)
+        return paginate(page_params=page_params, query=query, ResponseSchema=ProjectResponse, model=ProjectData)
+        # return paginate(page_params, query, Project)
 
     def get_project_by_id(self, project_id:str):
         if not project_id:

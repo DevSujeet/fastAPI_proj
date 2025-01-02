@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from fastapi.logger import logger
 from src.dependencies import get_user_id_header
-from src.schemas.pagination.pagination import PageParams, PagedResponseSchema
-from src.schemas.project import Project
+from src.schemas.pagination.pagination import PageParams, PagedResponseSchema, parse_page_params
+from src.schemas.project import Project, ProjectCreate, ProjectResponse
 from typing import List
 
 import src.services.project as ProjectService
@@ -15,13 +15,13 @@ router = APIRouter(
 )
 
 @router.post('')
-async def create_project_entry(project:Project, user_id=Depends(get_user_id_header)) -> Project:
+async def create_project_entry(project:ProjectCreate, user_id=Depends(get_user_id_header)) -> ProjectResponse:
     print(f'create a project entry')
     project = ProjectService.create_project_entry(user_id=user_id, project=project)
     return project
 
-@router.get('/all', response_model=PagedResponseSchema[Project])
-async def all_Project(user_id=Depends(get_user_id_header), page_params: PageParams = Depends()) -> List[Project]:
+@router.post('/all', response_model=PagedResponseSchema[ProjectResponse]) 
+async def all_Project(page_params: PageParams, user_id=Depends(get_user_id_header)):
    return ProjectService.all_Project(page_params=page_params)
 
 @router.get('')

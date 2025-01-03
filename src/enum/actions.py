@@ -7,3 +7,4 @@ class ActionType(str, Enum):
     EDIT = "EDIT"
     DELETE = "DELETE"
     SEARCH = "SEARCH"
+    ADD = "ADD" # when a record is added to a project

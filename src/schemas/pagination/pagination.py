@@ -9,7 +9,6 @@ class PageParams(BaseModel):
     """Request query params for paginated API, including optional filters."""
     page: int = Field(default=1, ge=1, description="Page number (must be greater than or equal to 1)")
     size: int = Field(default=10, ge=1, le=100, description="Page size (must be between 1 and 100)")
-    test:str = Field(default='test', description="test")
     filters: Optional[Dict[str, Any]] = Field(
         default=None, 
         description="Dictionary of filters to apply to the query. Example: {'name': 'test', 'status': 'active'}"

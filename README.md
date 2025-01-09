@@ -28,3 +28,10 @@ filterng
     source venv-telstra/bin/activate
     pip install uvicorn fastapi
     uvicorn src.main:app
+
+## TODO:-
+
+    - Postgress integration
+    - redis cache
+    - Azure deployment
+    - bulk upload/ download using AZURE

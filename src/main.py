@@ -3,13 +3,14 @@ import uvicorn
 from src.config.configs import _db_settings, CacheSettings
 from typing import Dict
 import os
-from src.routes import intro, user, record, location, project, analytics, userActivity
+from src.routes import intro, user, record, location, project, analytics #, userActivity
 from src.middleware.middleware import add_process_time, source_exception_handler
 from src.middleware.redis_middleware import RedisCacheMiddleware
 from src.exceptions.exception import SourceException
 # from fastapi_pagination import add_pagination
 from contextlib import asynccontextmanager
 from src.db import init_db
+from src.crud.table_association.project_location import ProjectLocationCRUD
 
 # os.environ["DEVELOPMENT_DATABASE_HOST"] = "test_os_host"
 # os.environ["DEVELOPMENT_DATABASE_USERNAME"] = "test_os_user"
@@ -48,7 +49,7 @@ def get_fastapi_routers():
        analytics.router,
        intro.router,
        user.router,
-       userActivity.router,
+    #    userActivity.router,
        record.router,
        location.router,
        project.router

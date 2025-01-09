@@ -1,7 +1,9 @@
+from src.crud.table_association.project_location import ProjectLocationCRUD
 from src.db import get_session
 from src.enum.actions import ActionType
+from src.schemas.mapping.project_location import ProjectLocationMapping
 from src.schemas.pagination.pagination import PageParams
-from src.schemas.project import Project, ProjectCreate
+from src.schemas.project import ProjectCreate
 from src.schemas.user_activity import UserActivityCreate
 from src.crud.project import ProjectCRUD
 from src.crud.activity import UserActivityCRUD
@@ -28,8 +30,15 @@ def create_project_entry(user_id:str, project:ProjectCreate):
         project_obj = ProjectCRUD(db_session=session).create_project_entry(project=project)
 
         if project.locations and len(project.locations) > 0:
-            # Todo:- add the entry to project location association table
+            # Todo:- 1. add the entry to location table, fetch location data from 3rd party data base
+            # Todo:- 2. add the entry to project location association table
             print("add the entry to project location association table")
+            # proceeding assuming the location entry os already made in location table
+            for location in project.locations:
+                project_location_mapping = ProjectLocationMapping(location_id=location.location_id,
+                                                                  project_id=project_obj.get('project_id'),
+                                                                  location_type=location.location_type)
+                ProjectLocationCRUD(db_session=session).create_user_activity(proj_loc_mapping=project_location_mapping)
 
         # create user activity
         user_activity = UserActivityCreate(user_id=user_id,

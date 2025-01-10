@@ -30,6 +30,14 @@ class PagedResponseSchema(GenericModel, Generic[T]):
     size: int
     results: List[T]
 
+class ResponseSchema(GenericModel, Generic[T]):
+    """Response schema for any API."""
+
+    status: str
+    message: str
+    code: int
+    data: T
+
 
 def paginate(
     page_params: PageParams,

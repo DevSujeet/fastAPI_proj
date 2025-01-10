@@ -2,8 +2,8 @@ from src.crud.table_association.project_location import ProjectLocationCRUD
 from src.db import get_session
 from src.enum.actions import ActionType
 from src.schemas.mapping.project_location import ProjectLocationMapping
-from src.schemas.pagination.pagination import PageParams
-from src.schemas.project import ProjectCreate
+from src.schemas.pagination.pagination import PageParams, ResponseSchema
+from src.schemas.project import ProjectCreate, ProjectResponse
 from src.schemas.user_activity import UserActivityCreate
 from src.crud.project import ProjectCRUD
 from src.crud.activity import UserActivityCRUD
@@ -46,7 +46,10 @@ def create_project_entry(user_id:str, project:ProjectCreate):
                                            action=ActionType.CREATE)
         UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)
         # return project_obj
-        return project_obj
+        return ResponseSchema[ProjectResponse](status="success",
+                                               code=200,
+                                                message="Project created successfully",
+                                                  data=project_obj)
      
 def delete_project_by_id(user_id:str, project_id:str):
     with get_session() as session:

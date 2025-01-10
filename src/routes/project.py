@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Request
 from fastapi.logger import logger
 from src.dependencies import get_user_id_header
-from src.schemas.pagination.pagination import PageParams, PagedResponseSchema, parse_page_params
+from src.schemas.pagination.pagination import PageParams, PagedResponseSchema, ResponseSchema, parse_page_params
 from src.schemas.project import Project, ProjectCreate, ProjectResponse
 from typing import List
 
@@ -14,7 +14,7 @@ router = APIRouter(
     responses={404: {"description": "x_user_id field is required in header"}}
 )
 
-@router.post('')
+@router.post('', response_model=ResponseSchema[ProjectResponse])
 async def create_project_entry(project:ProjectCreate, user_id=Depends(get_user_id_header)) -> ProjectResponse:
     print(f'create a project entry')
     project = ProjectService.create_project_entry(user_id=user_id, project=project)

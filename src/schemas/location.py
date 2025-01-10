@@ -34,8 +34,9 @@ class LocationRequest(BaseModel):
     '''
     Location request
     '''
-    location_id:Optional[str]
-    adbor_id:Optional[str]
+    location_column: str # like state, postcode, lga
+    location_value: str # like NSW, 2000, Sydney
+    location_type: Optional[AddressType]
 
 class BatchLocationRequest(BaseModel):
     '''

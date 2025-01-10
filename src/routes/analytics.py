@@ -5,7 +5,8 @@ from logging import getLogger
 
 from src.dependencies import get_user_id_header
 from src.schemas.location import LocationRequest
-from src.schemas.user_analytics.project_analytics import ProjectStatusOverViewResponse, ProjectsCountByLocationResponse, ProjectsByLocationResponse
+from src.schemas.pagination.pagination import PageParams
+from src.schemas.user_analytics.project_analytics import ProjectStatusOverViewResponse, ProjectsByLocationResponse
 from src.services.analytics import getLocationOverView, getProjectOverView, getProjectsByLocation
 
 router = APIRouter(
@@ -15,8 +16,8 @@ router = APIRouter(
     responses={404: {"description": "x_user_id field is required in header"}}
 )
 
-@router.get("/projects_count_by_state")
-async def get_projects_count_by_state(user_id=Depends(get_user_id_header)) -> List[ProjectsCountByLocationResponse]:
+@router.get("/projects_count_by_state", description="Project location widget")
+async def get_projects_count_by_state(user_id=Depends(get_user_id_header)) -> List[ProjectsByLocationResponse]:
     """
     ## get_projects_count_by_state
     Endpoint to fetch project count by state
@@ -84,7 +85,7 @@ async def get_user_role_distribution(user_id=Depends(get_user_id_header)):
 
 
 @router.get("/users_activity_log")
-async def get_all_users_activity_log(user_id=Depends(get_user_id_header)):
+async def get_all_users_activity_log(paeparam:PageParams ,user_id=Depends(get_user_id_header)):
     """
     ## get_all_users_activity_log
     Endpoint to get_all_users_activity_log sorted by most recent and paginated response

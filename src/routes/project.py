@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Request
 from fastapi.logger import logger
 from src.dependencies import get_user_id_header
-from src.schemas.pagination.pagination import PageParams, PagedResponseSchema, ResponseSchema, parse_page_params
+from src.schemas.pagination.pagination import PageParams, PagedResponseSchema, ResponseSchema
 from src.schemas.project import Project, ProjectCreate, ProjectResponse
 from typing import List
 

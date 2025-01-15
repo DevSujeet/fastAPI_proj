@@ -9,8 +9,6 @@ from src.constant.constant import DB_ENV_PREFIX, CACHE_ENV_PREFIX
 _ctx_var: ContextVar[Dict[Any, Any]] = ContextVar("ctx_var", default={})
 
 
-
-
 class _db_settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix=DB_ENV_PREFIX,  # Match prefix with your .env file #development_
@@ -50,3 +48,14 @@ class CacheSettings(BaseSettings):
     @property
     def cache_url(self) -> str:
         return f"redis://{self.cache_username}:{self.cache_password}@{self.cache_host}:{self.cache_port}"
+    
+
+# BaseSettings for managing configurations using environment variables
+class Settings(BaseSettings):
+    saml_public_cert_path: str
+    saml_entity_id: str
+    saml_idp_entity_id: str
+    saml_sso_url: str
+
+    class Config:
+        env_file = ".env"  # Optional: load from .env file if exists

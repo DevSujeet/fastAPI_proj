@@ -1,8 +1,6 @@
 from typing import List
 from fastapi import APIRouter, Depends
-from fastapi.logger import logger
-from logging import getLogger
-
+from src.config.log_config import logger
 from src.dependencies import get_user_id_header
 from src.schemas.location import LocationRequest
 from src.schemas.pagination.pagination import PageParams
@@ -85,7 +83,7 @@ async def get_user_role_distribution(user_id=Depends(get_user_id_header)):
 
 
 @router.get("/users_activity_log")
-async def get_all_users_activity_log(paeparam:PageParams ,user_id=Depends(get_user_id_header)):
+async def get_all_users_activity_log(pageparam:PageParams ,user_id=Depends(get_user_id_header)):
     """
     ## get_all_users_activity_log
     Endpoint to get_all_users_activity_log sorted by most recent and paginated response

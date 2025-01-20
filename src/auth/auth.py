@@ -3,15 +3,15 @@ import base64
 import zlib
 import os
 from datetime import datetime, timedelta
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Security
 from fastapi.responses import JSONResponse
 import xmlsec
 from lxml import etree
 import jwt
 from onelogin.saml2.auth import OneLogin_Saml2_Auth
 from onelogin.saml2.utils import OneLogin_Saml2_Utils
-from fastapi.security import OAuth2PasswordBearer
-from pydantic import BaseSettings
+from fastapi.security import APIKeyHeader, OAuth2PasswordBearer
+from pydantic_settings import BaseSettings
 from src.config.configs import Settings
 from src.config.log_config import logger
 
@@ -19,9 +19,6 @@ from src.config.log_config import logger
 SECRET_KEY = "your-secret-key"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-# OAuth2 Password Bearer for JWT token handling
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Initialize settings
 settings = Settings()
@@ -37,6 +34,9 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+
+# OAuth2 Password Bearer for JWT token handling
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 # Function to validate the JWT token
 def get_current_user(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
@@ -44,16 +44,52 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
+    expired_token_exception = HTTPException(
+        status_code=401,
+        detail="Token has expired",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        # assumption that the roles are stored in the JWT token
+        roles = payload.get("roles")
+        if username is None or roles is None:
+            raise credentials_exception
+        return {"username": username, "roles": roles}
+    except jwt.ExpiredSignatureError:
+        # Decode without verifying expiration to extract user info
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM], options={"verify_exp": False})
+        username = payload.get("sub")
+        roles = payload.get("roles")
+        # Log the expired token information
+        if username:
+            print(f"Expired token for user: {username}, roles: {roles}")
+        raise expired_token_exception
+        "Note:- Capture user session ending here."
+        raise expired_token_exception
+    except jwt.PyJWTError:
+        raise credentials_exception
+
+# another way Security scheme for Authorization header
+api_key_header = APIKeyHeader(name="Authorization", auto_error=True)
+def get_current_user_header(api_key: str = Security(api_key_header)):
+    # Validate JWT token
+    credentials_exception = HTTPException(
+        status_code=401,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(api_key.split("Bearer ")[1], SECRET_KEY, algorithms=[ALGORITHM])
         username = payload.get("sub")
         roles = payload.get("roles")
         if username is None or roles is None:
             raise credentials_exception
         return {"username": username, "roles": roles}
-    except jwt.PyJWTError:
+    except Exception:
         raise credentials_exception
-
+    
 # Function to directly extract user details from the SAML response (without signature verification)
 def extract_user_details_from_saml(saml_response: str):
     try:

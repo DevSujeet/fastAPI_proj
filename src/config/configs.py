@@ -57,5 +57,10 @@ class Settings(BaseSettings):
     saml_idp_entity_id: str
     saml_sso_url: str
 
-    class Config:
-        env_file = ".env"  # Optional: load from .env file if exists
+    model_config = SettingsConfigDict(
+        # env_prefix=CACHE_ENV_PREFIX,  # Match prefix with your .env file #development_
+        env_file='.env',
+        populate_by_name=True,  # Use field aliases
+        extra='ignore',  # Ignore extra inputs from the .env file
+        env_file_encoding='utf-8',
+    )

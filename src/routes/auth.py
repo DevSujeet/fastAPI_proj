@@ -5,13 +5,14 @@ from fastapi.responses import JSONResponse
 from src.auth.auth import create_access_token, extract_user_details_from_saml, get_current_user, validate_saml_response_with_signature
 from src.config.log_config import logger
 from src.dependencies import get_user_id_header
+from src.role_dependency import role_based_authorization_for_optional_permissions
+from src.schemas.user import User
 
 
 router = APIRouter(
     prefix="/auth",
     tags=["authentication"],
-    dependencies=[Depends(get_user_id_header)],
-    responses={404: {"description": "x_user_id field is required in header"}}
+    responses={404: {"description": "user is not authorised."}}
 )
 
 # Endpoint to receive the SAML response from the frontend and generate JWT
@@ -41,8 +42,13 @@ async def saml_response(saml_response: str, validate_signature: bool = True):
 # Example protected route requiring a valid JWT token
 @router.get("/protected")
 async def protected_route(current_user: dict = Depends(get_current_user)):
+    '''
+    curl -X GET "http://localhost:8000/auth/protected" \
+    -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdW5ueSBrdW1hciIsInJvbGVzIjpbImFkbWluIl0sImV4cCI6MTczNzAzODA0MX0.nOFdAc3KL6vlxnn9w4ixPJhPv3jord0FjI-ti8JFN1Q"
+    {"message":"Access granted","user":{"username":"sunny kumar","roles":["admin"]}}
+    '''
     # Check if user has 'user' role
-    if "user" not in current_user["roles"]:
+    if "admin" not in current_user["roles"]:
         raise HTTPException(status_code=403, detail="Insufficient permissions")
     return {"message": "Access granted", "user": current_user}
 
@@ -59,3 +65,16 @@ async def admin_route(current_user: dict = Depends(get_current_user)):
 async def logout():
     # logout user session if maintained
     return {"message": "Logged out successfully"}
+
+@router.get("/decode_token_permission")
+async def admin_route_test(permissions: dict = Depends(role_based_authorization_for_optional_permissions(['read']))):
+    '''
+    curl -X GET "http://localhost:8000/auth/decode_token_permission" \
+    -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdW5ueSBrdW1hciIsInJvbGVzIjpbImFkbWluIl0sImV4cCI6MTczNzAzODA0MX0.nOFdAc3KL6vlxnn9w4ixPJhPv3jord0FjI-ti8JFN1Q"
+    {"message":"Admin access granted","user":{"current_user":{"username":"sunny kumar","roles":["admin"]},"permissions_granted":[]}}%  
+    '''
+    return {"message": "Admin access granted", "user": permissions}
+
+@router.post("/get_token")
+async def get_token(user:User):
+    return create_access_token(data={"sub": user.user_name, "roles": user.user_roles}) #,expires_delta=timedelta(minutes=30))

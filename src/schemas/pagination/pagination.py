@@ -77,6 +77,7 @@ def paginate(
         total=total_count,
         page=page_params.page,
         size=page_params.size,
+        # results=[ResponseSchema(**item.__dict__) for item in paginated_query]
         results=[ResponseSchema.model_validate(item) for item in paginated_query],
     )
 

@@ -63,3 +63,5 @@ filterng
     xmlsec:
         A library used for XML signature validation, allowing you to verify the authenticity of the SAML response by checking the signature against the provided public certificate.
         Command: pip install xmlsec
+
+    pip install pyyaml

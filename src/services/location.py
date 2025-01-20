@@ -28,7 +28,7 @@ def create_location_entry(user_id: str, location:Location):
         location_obj = LocationCRUD(db_session=session).create_location_entry(location=location)
         # create user activity
         user_activity = UserActivityCreate(user_id=user_id,
-                                           location_id=location_obj.location_id,
+                                           location_id=location_obj.get('location_id'),
                                            action=ActionType.CREATE)
         UserActivityCRUD(db_session=session).create_user_activity(activity=user_activity)
         return location_obj

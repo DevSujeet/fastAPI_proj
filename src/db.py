@@ -24,7 +24,7 @@ db_settings_instance = _db_settings()
 
 ###----------------------sqlalchmy base-----------------
 
-LOCAL_DATABASE = 'sqlite:///db.sqlite'
+LOCAL_DATABASE = 'sqlite:///db_test.sqlite'
 engine = create_engine(LOCAL_DATABASE)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

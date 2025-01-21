@@ -2,16 +2,16 @@ from datetime import timedelta
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
-from src.auth.auth import create_access_token, extract_user_details_from_saml, get_current_user, validate_saml_response_with_signature
+from src.auth_saml.auth import create_access_token, extract_user_details_from_saml, get_current_user, validate_saml_response_with_signature
 from src.config.log_config import logger
 from src.dependencies import get_user_id_header
-from src.role_dependency import role_based_authorization_for_optional_permissions
+from src.role_dependency import role_based_authorization_with_optional_permissions_oauth
 from src.schemas.user import User
 
 
 router = APIRouter(
-    prefix="/auth",
-    tags=["authentication"],
+    prefix="/auth_saml",
+    tags=["saml_authentication"],
     responses={404: {"description": "user is not authorised."}}
 )
 
@@ -67,7 +67,7 @@ async def logout():
     return {"message": "Logged out successfully"}
 
 @router.get("/decode_token_permission")
-async def admin_route_test(permissions: dict = Depends(role_based_authorization_for_optional_permissions(['read']))):
+async def admin_route_test(permissions: dict = Depends(role_based_authorization_with_optional_permissions_oauth(['read']))):
     '''
     curl -X GET "http://localhost:8000/auth/decode_token_permission" \
     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdW5ueSBrdW1hciIsInJvbGVzIjpbImFkbWluIl0sImV4cCI6MTczNzAzODA0MX0.nOFdAc3KL6vlxnn9w4ixPJhPv3jord0FjI-ti8JFN1Q"

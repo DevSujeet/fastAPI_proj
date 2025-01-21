@@ -12,7 +12,7 @@ from onelogin.saml2.auth import OneLogin_Saml2_Auth
 from onelogin.saml2.utils import OneLogin_Saml2_Utils
 from fastapi.security import APIKeyHeader, OAuth2PasswordBearer
 from pydantic_settings import BaseSettings
-from src.config.configs import Settings
+from src.config.configs import SAML_Settings
 from src.config.log_config import logger
 
 # Configuration for JWT
@@ -21,7 +21,7 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Initialize settings
-settings = Settings()
+settings = SAML_Settings()
 
 # Function to generate JWT token
 def create_access_token(data: dict, expires_delta: timedelta = None):

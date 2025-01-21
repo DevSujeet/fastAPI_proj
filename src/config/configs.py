@@ -51,11 +51,44 @@ class CacheSettings(BaseSettings):
     
 
 # BaseSettings for managing configurations using environment variables
-class Settings(BaseSettings):
+class SAML_Settings(BaseSettings):
     saml_public_cert_path: str
     saml_entity_id: str
     saml_idp_entity_id: str
     saml_sso_url: str
+
+    model_config = SettingsConfigDict(
+        # env_prefix=CACHE_ENV_PREFIX,  # Match prefix with your .env file #development_
+        env_file='.env',
+        populate_by_name=True,  # Use field aliases
+        extra='ignore',  # Ignore extra inputs from the .env file
+        env_file_encoding='utf-8',
+    )
+
+
+class OAUTH_Settings(BaseSettings):
+    tenant_id: str
+    client_id: str
+    client_secret: str
+    redirect_uri: str
+    scope:str
+    # secret_key:str
+    # algorithm:str
+
+    model_config = SettingsConfigDict(
+        # env_prefix=CACHE_ENV_PREFIX,  # Match prefix with your .env file #development_
+        env_file='.env',
+        populate_by_name=True,  # Use field aliases
+        extra='ignore',  # Ignore extra inputs from the .env file
+        env_file_encoding='utf-8',
+    )
+
+
+class JWT_Settings(BaseSettings):
+    secret_key:str
+    algorithm:str
+    access_token_expire_minutes:int
+    # ACCESS_TOKEN_EXPIRE_MINUTES:str
 
     model_config = SettingsConfigDict(
         # env_prefix=CACHE_ENV_PREFIX,  # Match prefix with your .env file #development_

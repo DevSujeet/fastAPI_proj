@@ -8,10 +8,9 @@ from fastapi.security import OAuth2PasswordBearer
 import base64
 import zlib
 
-# Configuration for JWT
-SECRET_KEY = "your-secret-key"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+from src.auth_oauth.auth_config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
+
+
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -25,6 +24,7 @@ session_store = {}
 
 # OAuth2 Password Bearer for JWT token handling
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
 
 # Function to generate JWT token
 def create_access_token(data: dict, expires_delta: timedelta = None):

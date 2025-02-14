@@ -14,10 +14,17 @@ Pagination
 filterng
 
 ## running this app.
+    since venv is also part of the git..could be removed later
+        source venv-telstra/bin/activate //activate env
+        pip install -r requirement.txt
+        uvicorn src.main:app --reload
 
-    source venv-telstra/bin/activate //activate env
-    pip install -r requirement.txt
-    uvicorn src.main:app --reload
+    or
+    ## Project setup
+        using Uv as python package manager.
+        $ uv venv
+        $ source .venv/bin/activate
+        $ uv pip install -r requirement.text 
 
 # In case you face any issue:
 

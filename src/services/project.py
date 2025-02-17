@@ -34,11 +34,11 @@ def create_project_entry(user_id:str, project:ProjectCreate):
             # Todo:- 2. add the entry to project location association table
             print("add the entry to project location association table")
             # proceeding assuming the location entry os already made in location table
-            for location in project.locations:
-                project_location_mapping = ProjectLocationMapping(location_id=location.location_id,
-                                                                  project_id=project_obj.get('project_id'),
-                                                                  location_type=location.location_type)
-                ProjectLocationCRUD(db_session=session).create_user_activity(proj_loc_mapping=project_location_mapping)
+            # for location in project.locations:
+            #     project_location_mapping = ProjectLocationMapping(location_id=location.location_id,
+            #                                                       project_id=project_obj.get('project_id'),
+            #                                                       location_type=location.location_type)
+            #     ProjectLocationCRUD(db_session=session).create_user_activity(proj_loc_mapping=project_location_mapping)
 
         # create user activity
         user_activity = UserActivityCreate(user_id=user_id,

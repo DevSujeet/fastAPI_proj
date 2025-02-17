@@ -1,30 +1,32 @@
 from fastapi import APIRouter, Depends
 from fastapi.logger import logger
 from typing import Dict
-from src.models.UserActivity import UserActivityBase,UserActivity
-from datetime import datetime
+from src.dependencies import get_user_id_header
+from src.schemas.pagination.pagination import PageParams, PagedResponseSchema
+from src.schemas.user_activity import UserActivityResponse, UserActivityCreate
 from typing import List
-from src.services.userActivity import insert_user_activity, get_activities_by_userid, get_all_user_activities
-from sqlmodel import Session
+import src.services.userActivity as UserActivityService
 from src.db import get_session
 
 router = APIRouter(
     prefix="/activity",
     tags=["activity"],
-    dependencies=[Depends(get_session)],
-    responses={404: {"description": "X_ProjectID field is required in header"}}
+    dependencies=[Depends(get_user_id_header)],
+    responses={404: {"description": "x_user_id field is required in header"}}
 )
 
-@router.get('/all')
-async def all_users_activities(session:Session = Depends(get_session)) -> List[UserActivity]:
-    return get_all_user_activities(session=session)
+@router.post('/all', response_model=PagedResponseSchema[UserActivityResponse])
+async def all_users_activities(page_params:PageParams, user_id=Depends(get_user_id_header)):
+    activities = UserActivityService.get_all_user_activities(user_id=user_id,page_params=page_params)
+    return activities
     
 
 @router.get('/byUser')
-async def activity_by_user(user_id:str,session:Session = Depends(get_session)) -> List[UserActivity]:
+async def activity_by_user(user_id=Depends(get_user_id_header)) -> List[UserActivityResponse]:
     # return user for a given user_id
-    return get_activities_by_userid(user_id=user_id,session=session)
+    activity = UserActivityService.get_activities_by_userid(user_id=user_id)
+    return activity
 
-@router.post('')
-async def create_user_activity(activity:UserActivityBase, session:Session = Depends(get_session)):
-    insert_user_activity(activity=activity, session=session)
+# @router.post('')
+# async def create_user_activity(activity:UserActivityCreate):
+#     UserActivityService.create_user_activity(activity=activity)

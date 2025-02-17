@@ -1,26 +1,17 @@
-# from pydantic import BaseModel
+
 import uuid
-from datetime import datetime
-from pydantic import EmailStr
-from enum import Enum
-from sqlmodel import SQLModel, Field
+from sqlalchemy import Column, TIMESTAMP, ForeignKey, func, String
+from sqlalchemy.dialects.postgresql import JSONB
+from src.db import Base
 
-class ActionType(Enum):
-    DOWNLOAD = "DOWNLOAD"
-    UPLOAD = "UPLOAD"
-    CREATE = "CREATE"
-    EDIT = "EDIT"
-    DELETE = "DELETE"
-    SEARCH = "SEARCH"
+class UserActivityData(Base):
+    __tablename__ = 'user_activity'
 
-class UserActivityBase(SQLModel):
-    user_id:str = Field(foreign_key="user.user_id")
-    record_name:str #file name that was uploaded
-    data_category:str
-    action:ActionType
-    timestamp:datetime
-
-class UserActivity(UserActivityBase, table=True):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
-
-
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()), nullable=False)
+    user_id = Column("user_id", String, primary_key=True, nullable=False)
+    record_id = Column("record_id", String, ForeignKey("record.record_id"), nullable=True) #foriegn key to record table record_id
+    project_id = Column("project_id", String,ForeignKey("project.project_system_id"), nullable=True) #foriegn key to project table project_id
+    location_id = Column("location_id", String,ForeignKey("location.location_id"), nullable=True) #foriegn key to location table location_id
+    action = Column("action", String, nullable=False)
+    created = Column(TIMESTAMP, default=func.now(), nullable=False)
+    

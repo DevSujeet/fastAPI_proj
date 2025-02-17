@@ -1,29 +1,47 @@
-from fastapi import HTTPException
+
+from sqlalchemy import and_, asc
 from src.crud.base_curd import BaseCRUD
-from src.models.user import User
-from sqlmodel import select
+from src.models.user import UserData
+from src.schemas.user import User
+
+from fastapi import HTTPException
 
 class UserCRUD(BaseCRUD):
 
-    def create_user(self, user:User):
-        print(f'create_user in crud pre{user}')
-        self.db_session.add(user)
-        print(f'create_user in crud post{user}')
-        self.db_session.flush()
-        self.db_session.commit()
-        self.db_session.refresh(user)
-        print(f'user is created {user}')
-        return user
-    
     def get_all_user(self):
-        statement = select(User)
-        results = self.db_session.exec(statement=statement)
-        return results
+        # statement = select(User)
+        # results = self.db_session.exec(statement=statement)
+        query = self.db_session.query(UserData).order_by(asc(UserData.created))
+        return query.all()
     
     def get_user(self, user_id:str):
-        statement = select(User).where(User.user_id == user_id)
-        results = self.db_session.exec(statement=statement)
-        user = results.first()
-        if user is None:
-            raise HTTPException(status_code=404, detail='user not found')
-        return user
+        if not user_id:
+            raise HTTPException(status_code=400, detail="User ID must be provided")
+    
+        filters = [UserData.user_id == user_id]
+        query = self.db_session.query(UserData).filter(and_(*filters)).order_by(asc(UserData.created))
+        user = query.first()
+        if user:
+            return user
+        else:
+            raise HTTPException(status_code=404, detail="User not found")
+    
+    def create_user(self, user:User):
+        print(f'create_user in crud pre{user}')
+        user_obj = UserData(**user.model_dump())
+        self.db_session.add(user_obj)
+        print(f'create_user in crud post{user_obj}')
+        self.db_session.flush()
+        self.db_session.commit()
+        self.db_session.refresh(user_obj)
+        print(f'user is created {user_obj}')
+        return user_obj
+    
+    def delete_user(self, user_id:str):
+        user = self.get_user(user_id=user_id)
+        if user:
+            self.db_session.delete(user)
+            self.db_session.commit()
+            return user
+        else:
+            raise HTTPException(status_code=404, detail="User not found")
